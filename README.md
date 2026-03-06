@@ -48,9 +48,9 @@ I enjoy solving real-world problems with clean code and continuously improving m
 - Stripe Payment Gateway
 
 #### 🧰 Tools
-- Git & GitHub
+- Git & GitHub & Docker
 - Linux
-- VS Code / Cursor IDE
+- VS Code / Cursor IDE / Google antigravity
 
 ---
 
@@ -74,9 +74,8 @@ I enjoy solving real-world problems with clean code and continuously improving m
 
 ### 📫 Connect With Me
 
-- 💼 LinkedIn
-- 🌐 Portfolio (coming soon)
-- 📧 Email: your-email@example.com
+- 💼 LinkedIn:https://www.linkedin.com/in/aftab-jamil-03a95a2b7
+- 📧 Email: aftabjamil760@gmail.com
 
 ---
 
