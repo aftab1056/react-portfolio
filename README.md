@@ -15,6 +15,58 @@ I have **1.5+ years of experience in Web Development**, building modern, scalabl
 I enjoy solving real-world problems with clean code and continuously improving my development skills.
 
 ---
+A full-stack **MERN e-commerce application** with secure authentication, payment integration, and admin dashboard.
+
+**Key Features**
+
+- User authentication (JWT + Cookies)
+- Product catalog & search
+- Shopping cart system
+- Stripe payment integration
+- Order management system
+- Admin dashboard for products & orders
+- Email notifications using SMTP
+- Secure API with middleware
+- Responsive UI with TailwindCSS
+
+---
+
+### 🌐 Social Media Platform (Facebook-like)
+
+A modern **social media web application** where users can connect, share posts, and interact in real time.
+
+**Key Features**
+
+- User registration & login
+- Profile creation and editing
+- Post creation (text, images)
+- Like and comment system
+- Follow / friend system
+- Real-time notifications
+- News feed algorithm
+- Image upload and storage
+- Secure authentication (JWT + OAuth)
+
+**Tech Used**
+
+React.js • Node.js • Express • MongoDB • TailwindCSS • Socket.io
+
+---
+
+### 💬 Real-Time Chat Application (WhatsApp-like)
+
+A **real-time messaging platform** with instant communication using WebSockets.
+
+**Key Features**
+
+- Real-time messaging
+- Private chat rooms
+- Online / offline user status
+- Message timestamps
+- Typing indicator
+- File and image sharing
+- Notification system
+- Message history storag
 
 ### 🛠️ Tech Stack
 
@@ -54,15 +106,6 @@ I enjoy solving real-world problems with clean code and continuously improving m
 
 ---
 
-### 🎯 What I Love Building
-
-✨ Full-stack MERN applications  
-✨ Authentication systems  
-✨ Payment integrations  
-✨ Scalable backend APIs  
-✨ Modern UI with React & Tailwind  
-
----
 
 ### 🌱 Currently Exploring
 
