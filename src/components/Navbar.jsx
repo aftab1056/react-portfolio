@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-scroll';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = ({ activeSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
 
   // Handle scroll effect for navbar
   useEffect(() => {
@@ -90,14 +94,24 @@ const Navbar = ({ activeSection }) => {
             whileTap={{ scale: 0.95 }}
             className="flex items-center"
           >
-            <Link
-              to="home"
-              smooth={true}
-              duration={500}
-              className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent cursor-pointer"
-            >
-              Portfolio
-            </Link>
+            {isHome ? (
+              <Link
+                to="home"
+                smooth={true}
+                duration={500}
+                className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent cursor-pointer"
+              >
+                Portfolio
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => navigate('/')}
+                className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent cursor-pointer"
+              >
+                Portfolio
+              </button>
+            )}
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -112,20 +126,34 @@ const Navbar = ({ activeSection }) => {
                 whileHover="hover"
                 className="relative"
               >
-                <Link
-                  to={item.id}
-                  spy={true}
-                  smooth={true}
-                  offset={-80}
-                  duration={500}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 cursor-pointer ${
-                    activeSection === item.id
-                      ? 'text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {item.label}
-                </Link>
+                {isHome ? (
+                  <Link
+                    to={item.id}
+                    spy={true}
+                    smooth={true}
+                    offset={-80}
+                    duration={500}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 cursor-pointer ${
+                      activeSection === item.id
+                        ? 'text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
+                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => navigate('/', { state: { scrollTo: item.id } })}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 cursor-pointer ${
+                      activeSection === item.id
+                        ? 'text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
+                        : 'text-gray-300 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                )}
                 {activeSection === item.id && (
                   <motion.div
                     layoutId="activeNavItem"
@@ -191,28 +219,52 @@ const Navbar = ({ activeSection }) => {
                     }}
                     className="border-b border-white/10 last:border-0"
                   >
-                    <Link
-                      to={item.id}
-                      spy={true}
-                      smooth={true}
-                      offset={-80}
-                      duration={500}
-                      className={`block px-4 py-3 rounded-lg font-medium transition-colors duration-300 ${
-                        activeSection === item.id
-                          ? 'text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
-                          : 'text-gray-300 hover:text-white hover:bg-white/5'
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                      {activeSection === item.id && (
-                        <motion.span
-                          layoutId="mobileActiveNavItem"
-                          className="block h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 mt-1 w-1/2"
-                          initial={false}
-                        />
-                      )}
-                    </Link>
+                    {isHome ? (
+                      <Link
+                        to={item.id}
+                        spy={true}
+                        smooth={true}
+                        offset={-80}
+                        duration={500}
+                        className={`block px-4 py-3 rounded-lg font-medium transition-colors duration-300 ${
+                          activeSection === item.id
+                            ? 'text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
+                            : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        }`}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.label}
+                        {activeSection === item.id && (
+                          <motion.span
+                            layoutId="mobileActiveNavItem"
+                            className="block h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 mt-1 w-1/2"
+                            initial={false}
+                          />
+                        )}
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          navigate('/', { state: { scrollTo: item.id } });
+                        }}
+                        className={`block w-full text-left px-4 py-3 rounded-lg font-medium transition-colors duration-300 ${
+                          activeSection === item.id
+                            ? 'text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/20'
+                            : 'text-gray-300 hover:text-white hover:bg-white/5'
+                        }`}
+                      >
+                        {item.label}
+                        {activeSection === item.id && (
+                          <motion.span
+                            layoutId="mobileActiveNavItem"
+                            className="block h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 mt-1 w-1/2"
+                            initial={false}
+                          />
+                        )}
+                      </button>
+                    )}
                   </motion.div>
                 ))}
               </div>

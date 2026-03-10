@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom';
 
 // Import all components
 import Hero from './components/Hero';
@@ -11,6 +11,7 @@ import Education from './components/Education';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import MernProjects from './components/MernProjects';
 
 
 // Component that will be used for the scroll progress indicator
@@ -31,8 +32,8 @@ const ScrollProgress = () => {
   );
 };
 
-// Main App Component
-const App = () => {
+// Main App Component (inside Router)
+const AppContent = () => {
   // State management
   const [activeSection, setActiveSection] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +46,7 @@ const App = () => {
   const [educationRef, educationInView] = useInView({ threshold: 0.3 });
   const [skillsRef, skillsInView] = useInView({ threshold: 0.3 });
   const [contactRef, contactInView] = useInView({ threshold: 0.3 });
+  const location = useLocation();
 
   // Update active section based on scroll position
   useEffect(() => {
@@ -103,6 +105,19 @@ const App = () => {
     },
   };
 
+  // Scroll to a specific section when navigating from another route
+  useEffect(() => {
+    if (location.pathname === '/' && location.state && location.state.scrollTo) {
+      const id = location.state.scrollTo;
+      const el = document.getElementById(id);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
   // Loading state
   if (isLoading) {
     return (
@@ -120,62 +135,67 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
-      <div className="relative overflow-x-hidden">
-        {/* Scroll Progress Indicator */}
+    <div className="relative overflow-x-hidden">
         <ScrollProgress />
-
-        {/* Navigation */}
         <Navbar activeSection={activeSection} />
 
-        {/* Hero Section */}
-        <div ref={homeRef}>
-          <Hero />
-        </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div ref={homeRef}>
+                  <Hero />
+                </div>
 
-        {/* Main Content */}
-        <main className="relative z-10">
-          <AnimatePresence mode="wait">
-            <motion.div
-              ref={containerRef}
-              initial="hidden"
-              animate="visible"
-              variants={containerVariants}
-              className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white"
-            >
-              {/* About Section */}
-              <div ref={aboutRef}>
-                <About />
-              </div>
+                <main className="relative z-10">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      ref={containerRef}
+                      initial="hidden"
+                      animate="visible"
+                      variants={containerVariants}
+                      className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white"
+                    >
+                      <div ref={aboutRef}>
+                        <About />
+                      </div>
 
-              {/* Education Section */}
-              <div ref={educationRef}>
-                <Education />
-              </div>
+                      <div ref={educationRef}>
+                        <Education />
+                      </div>
 
-              {/* Skills Section */}
-              <div ref={skillsRef}>
-                <Skills />
-              </div>
+                      <div ref={skillsRef}>
+                        <Skills />
+                      </div>
 
-              {/* Contact Section */}
-              <div ref={contactRef}>
-                <Contact />
+                      <div ref={contactRef}>
+                        <Contact />
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </main>
+              </>
+            }
+          />
+          <Route path="/mern-projects" element={<MernProjects />} />
+        </Routes>
 
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </main>
-
-        {/* Footer */}
         <Footer />
 
-        {/* Background Elements */}
         <div className="fixed inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0 bg-grid-white/[0.05] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#3b82f6_0,transparent_70%)] opacity-20 blur-3xl"></div>
         </div>
       </div>
+ 
+  );
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 };

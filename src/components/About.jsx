@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useNavigate } from 'react-router-dom';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -31,6 +32,7 @@ const About = () => {
   const sectionRef = useRef(null);
   const controls = useAnimation();
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
+  const navigate = useNavigate();
 
   // Text reveal animation
   useEffect(() => {
@@ -204,9 +206,13 @@ const About = () => {
                 }}
                 viewport={{ once: true, margin: '-50px' }}
                 variants={cardVariants}
-               
+                onClick={() => {
+                  if (tech.title === 'MERN Stack') {
+                    navigate('/mern-projects');
+                  }
+                }}
                 whileHover="hover"
-                className={`p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 relative overflow-hidden group`}
+                className={`p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 relative overflow-hidden group ${tech.title === 'MERN Stack' ? 'cursor-pointer' : ''}`}
               >
                 {/* Animated gradient border */}
                 <div className={`absolute inset-0 rounded-xl p-[1px] bg-gradient-to-r ${tech.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
